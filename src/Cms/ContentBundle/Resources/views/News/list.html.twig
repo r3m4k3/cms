@@ -1,0 +1,98 @@
+{% extends "CmsUtilBundle::base.html.twig" %}
+
+{% block pageTitle %}Aktualności{% endblock %}
+{% block pageContainer %}
+
+    <article>
+
+        <div class="container alerts">
+            {% for type,messages in app.session.flashbag.all() %} 
+                {% for msg in messages %}
+                    <div class="alert alert-{{ type }}">{{ msg|trans }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+            <div style="float: none; padding: 10px; margin-top: 25px;" class="panel panel-primary col-md-11 center-block">
+                <div class="panel-heading">
+                    Listing newsów
+                </div>
+                <div class="panel-body">
+                    <br />
+
+                    <table class="table table-striped table-bordered">
+
+                        <thead>
+
+                            <th>ID</th>
+                            <th>Miniaturka</th>
+                            <th>Tytuł</th>
+                            <th>Status</th>
+                            <th>Kategoria</th>
+                            <th>Dodał</th>
+                            <th>Opublikowano</th>
+                            <th>Dodano</th>
+                            <th>Wyświetlono</th>
+                            <th>Akcje</th>
+
+                        </thead>
+
+                        <tbody>
+
+                        {% for key, news_item in news %}
+
+                            <tr>
+
+                                <td>
+                                   {{ news_item.id }}
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    {{ news_item.title }}
+                                </td>
+                                <td>
+                                    {% if news_item.status == 0 %}
+                                        <span class="label label-danger">Nieopublikowano</span>
+                                    {% elseif news_item.status == 1 %}
+                                        <span class="label label-warning">Szkic</span>
+                                    {% elseif news_item.status == 2 %}
+                                        <span class="label label-success">Opublikowano</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ news_item.category }}
+                                </td>
+                                <td>
+                                    {{ news_item.userId }}
+                                </td>
+                                <td>
+                                    {{ news_item.publishStartDate|date('d-m-Y H:i:s') }}
+                                </td>
+                                <td>
+                                    {{ news_item.created|date('d-m-Y H:i:s') }}
+                                </td>
+                                <td>
+                                    {{ news_item.hitCounter }}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default">E</button>
+                                    <button type="button" class="btn btn-danger">X</button>
+                                    <button type="button" class="btn btn-success">P</button>
+                                </td>
+
+                            </tr>
+
+                        {%  endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+
+    </article>
+
+{% endblock %}

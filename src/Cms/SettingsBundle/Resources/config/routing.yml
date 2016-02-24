@@ -1,0 +1,7 @@
+add_menu:
+    path:     /menu/add
+    defaults: { _controller: CmsSettingsBundle:Menu:add }
+
+add_menu_item:
+    path:     /menu/add-item
+    defaults: { _controller: CmsSettingsBundle:Menu:addItem }

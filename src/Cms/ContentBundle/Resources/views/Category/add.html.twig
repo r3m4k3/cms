@@ -1,0 +1,66 @@
+{% extends "CmsUtilBundle::base.html.twig" %}
+
+{% block pageTitle %}Kategoria{% endblock %}
+{% block pageContainer %}
+    {% form_theme form 'CmsUtilBundle:Form:form_theme.html.twig' %}
+
+    <script>
+        $(document).ready(function() {
+
+            var list;
+            var provinceId;
+
+            $("#new_category_form_province").change(function() {
+                provinceId = $(this).val();
+                renderCities(provinceId);
+            });
+
+            function renderCities(provinceId) {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('get_cities_by_province_id') }}",
+                    data: { provinceId : provinceId },
+                    dataType: 'json',
+                    success: function (cities) {
+                        list = "<option value=''>-- Brak --</option>";
+                        $.each(cities, function (key, value) {
+                            list += "<option value='" + key + "'>" + value + "</option>";
+                        });
+                        $("#new_category_form_city").empty().html(list);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+        });
+    </script>
+
+    <article>
+
+        <div class="container alerts">
+            {% for type,messages in app.session.flashbag.all() %} 
+                {% for msg in messages %}
+                    <div class="alert alert-{{ type }}">{{ msg|trans }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+            <div style="float: none; padding: 10px; margin-top: 25px;" class="panel panel-primary col-md-8 center-block">
+                <div class="panel-heading">
+                    Dodaj
+                </div>
+                <div class="panel-body">
+                    <br />
+
+                    {% if form is not null %}
+                        {{ form(form) }}
+                    {% endif %}
+
+                </div>
+            </div>
+
+    </article>
+
+{% endblock %}

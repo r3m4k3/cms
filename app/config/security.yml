@@ -1,0 +1,42 @@
+security:
+    encoders:
+           Cms\UserBundle\Entity\User:
+               algorithm:  sha512
+               iterations: 100
+               encode_as_base64: true
+
+    role_hierarchy:
+        ROLE_DESIGNER:    ROLE_USER
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        user_db:
+            entity:
+                class: Cms\UserBundle\Entity\User
+                property: username
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        secured_area:
+            pattern:    ^/
+            provider: user_db
+            anonymous: ~
+            form_login:
+                login_path:  login
+                check_path:  login_check
+                always_use_default_target_path: true
+                default_target_path: /user/account
+            logout:
+                path: logout
+                target: /login
+                invalidate_session: true
+
+#, requires_channel: https
+    access_control:
+        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/designer, roles: ROLE_DESIGNER }
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

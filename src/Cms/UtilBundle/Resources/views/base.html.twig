@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <title>{% block pageTitle %}{% endblock %}</title>
+        {#css#}
+        {% block stylesheets %}
+            <link href="{{ asset('bundles/cmsutil/css/bootstrap.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/cmsutil/css/bootstrap-theme.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/cmsutil/css/bootstrap-tagsinput.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/cmsutil/css/jquery-ui.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/cmsutil/css/jquery-ui.structure.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/cmsutil/css/jquery-ui.theme.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/cmsutil/css/jquery-ui-timepicker-addon.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/cmsutil/css/styles.css') }}" rel="stylesheet">
+            {% stylesheets
+            '@CmsUtilBundle/Resources/less/overwritten.less'
+            %}
+            <link href="{{ asset_url }}" rel="stylesheet">
+            {%  endstylesheets %}
+        {% endblock stylesheets %}
+        {#/css#}
+        {#js#}
+        {% block javascripts %}
+        <script src="{{ asset('bundles/cmsutil/js/jquery.js') }}"></script>
+        <script src="{{ asset('bundles/cmsutil/js/bootstrap.js') }}"></script>
+            <script src="{{ asset('bundles/cmsutil/js/jquery-ui.js') }}"></script>
+            <script src="{{ asset('bundles/cmsutil/js/jquery-ui-timepicker-addon.js') }}"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+            <script src="{{ asset('bundles/cmsutil/js/bootstrap-tagsinput.js') }}"></script>
+            <script>
+                angular.module('app', [])
+                        .config(['$interpolateProvider', function ($interpolateProvider) {
+                            $interpolateProvider.startSymbol('[{');
+                            $interpolateProvider.endSymbol('}]');
+                        }]);
+            </script>
+            <script>
+                $(document).ready(function() {
+                    $('.datetimepicker').datetimepicker({
+                        dateFormat: 'dd-mm-yy',
+                        timeFormat: 'HH:mm:ss',
+                        currentText: 'Teraz',
+                        closeText: 'Zapisz',
+                        timeText: 'Czas',
+                        hourText: 'Godzina',
+                        minuteText: 'Minuta',
+                        secondText: 'Sekunda',
+                        dayNamesMin: ['Pn','Wt','Śr','Czw','Pt','Sb','Nd'],
+                        monthNames: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień',
+                                'Październik', 'Listopad', 'Grudzień'],
+                        prevText: 'Poprzedni',
+                        nextText: 'Następny'
+                    });
+                });
+            </script>
+        {% endblock javascripts %}
+        {#/js#}
+        {{ tinymce_init() }}
+    </head>
+    <body>
+
+    {% if app.user is not null %}
+    <ul class="nav nav-pills" style="padding: 10px; margin: 10px; ">
+        <li class="active"><a href="{{ path('my_account') }}">Główna</a></li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                Treści<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="{{ path('add_category') }}">Dodaj kategorię</a></li>
+                <li><a href="{{ path('add_news') }}">Dodaj artykuł</a></li>
+                <li><a href="{{ path('list_news') }}">Lista newsów</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                Menu<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="{{ path('add_menu') }}">Dodaj menu</a></li>
+                <li><a href="{{ path('add_menu_item') }}">Dodaj pozycję menu</a></li>
+            </ul>
+        </li>
+        <li style="float: right;" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                Zalogowano jako: {{ app.user.username }} <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="{{ path('my_account') }}">Moje konto</a></li>
+                <li><a href="{{ path('edit_account') }}">Edytuj profil</a></li>
+                <li><a href="{{  path('logout') }}">Wyloguj</a></li>
+            </ul>
+        </li>
+    </ul>
+    {% endif %}
+
+        {% block pageContainer %}
+        {% endblock %}  

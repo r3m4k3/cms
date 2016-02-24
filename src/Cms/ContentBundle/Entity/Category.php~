@@ -1,0 +1,121 @@
+<?php
+
+namespace Cms\ContentBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="categories")
+ * @ORM\HasLifecycleCallbacks
+ */
+class Category {
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     *
+     */
+    private $user_id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\NotBlank
+     *
+     * @Assert\Length(
+     *      max = "255"
+     * )
+     *
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     *
+     * @Assert\NotBlank
+     *
+     */
+    private $data_type;
+
+    /**
+     * @ORM\Column(name="supercategory_id",type="integer",nullable=true)
+     *
+     */
+    private $supercategory;
+
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank
+     *
+     */
+    private $default_sort_type;
+
+    /**
+     * @ORM\Column(type="integer", length=1)
+     *
+     * @Assert\NotBlank
+     *
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Assert\Length(
+     *      max = "255"
+     * )
+     *
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     *  @Assert\Length(
+     *      max = "255"
+     * )
+     *
+     */
+    private $tags;
+
+    /**
+     * @ORM\Column(type="integer",nullable=true, name="province_id")
+     *
+     */
+    private $province;
+
+    /**
+     * @ORM\Column(type="integer",nullable=true, name="city_id")
+     *
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     */
+    private $lately_edited;
+
+    /**
+     * @var \Datetime
+     * @ORM\Column(type="datetime", name="created")
+     *
+     */
+    private $created;
+
+    public function __construct() {
+        $this->setCreated(new \DateTime());
+    }
+
+
+}

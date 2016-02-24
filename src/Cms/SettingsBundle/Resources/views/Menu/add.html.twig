@@ -1,0 +1,50 @@
+{% extends "CmsUtilBundle::base.html.twig" %}
+
+{% block pageTitle %}Menu{% endblock %}
+{% block pageContainer %}
+    {% form_theme form 'CmsUtilBundle:Form:form_theme.html.twig' %}
+    {% form_theme menuItemForm 'CmsUtilBundle:Form:form_theme.html.twig' %}
+
+    <script>
+        $(document).ready(function() {
+            $("#menu-add-elements").click(function() {
+                $("#dialog-submenu").dialog();
+            });
+        });
+    </script>
+
+    <article>
+
+        <div class="container alerts">
+            {% for type,messages in app.session.flashbag.all() %} 
+                {% for msg in messages %}
+                    <div class="alert alert-{{ type }}">{{ msg|trans }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+            <div style="float: none; padding: 10px; margin-top: 25px;" class="panel panel-primary col-md-8 center-block">
+                <div class="panel-heading">
+                    Dodaj
+                </div>
+                <div class="panel-body">
+                    <br />
+
+                    {% if form is not null %}
+                        {{ form(form) }}
+                    {% endif %}
+
+                    <a id="menu-add-elements">
+                        <button class="btn-warning btn">Dodaj elementy</button>
+                    </a>
+
+                </div>
+            </div>
+
+    </article>
+
+    <div id="dialog-submenu" title="Dodaj pozycję menu">
+            {{ form(menuItemForm) }}
+    </div>
+
+{% endblock %}

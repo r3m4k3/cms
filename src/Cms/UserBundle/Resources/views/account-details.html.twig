@@ -1,0 +1,99 @@
+{% extends "CmsUtilBundle::base.html.twig" %}
+
+{% block pageTitle %}Konto{% endblock %}
+{% block pageContainer %}
+
+    <article>
+
+        <div class="container alerts">
+            {% for type,messages in app.session.flashbag.all() %} 
+                {% for msg in messages %}
+                    <div class="alert alert-{{ type }}">{{ msg|trans }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+            <div style="float: none; padding: 10px; margin-top: 25px;" class="panel panel-primary col-md-10 center-block">
+                <div class="panel-heading">
+                    Twoje konto
+                </div>
+                <div class="panel-body">
+
+                    Witaj,<strong> {{ user.username  }}</strong>!
+                    <br /><br />
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Twój avatar (80x80 [px], max. 1 MB):</th>
+                            <td>
+
+                                <div class="avatar-frame">
+                                {% if user.avatar is empty %}
+                                    <img src="{{ asset('bundles/cmsuser/images/default_avatar.png') }}" alt="default.png" />
+                                {% else %}
+                                    <img src="{{ asset('uploads/images/avatars/'~ user.avatar ~'') }}" alt="brak avatara" />
+                                {% endif %}
+                                </div>
+
+                                {% if form is not null %}
+                                    {{ form(form) }}
+                                {%  endif  %}
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Login:</th>
+                            <td>{{ user.username }}</td>
+                        </tr>
+                        <tr>
+                            <th>Imię i nazwisko:</th>
+                            <td>{{ user.firstname }} {{ user.lastname }}</td>
+                        </tr>
+                        <tr>
+                            <th>E-mail:</th>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        {% if user.phone is not null %}
+                        <tr>
+                            <th>Telefon:</th>
+                            <td>+48 {{ user.phone }}</td>
+                        </tr>
+                        {%  endif  %}
+                        {%  if user.website is not null %}
+                        <tr>
+                            <th>Strona WWW:</th>
+                            <td><a href="{{ user.website }}">{{ user.website }}</a></td>
+                        </tr>
+                        {%  endif  %}
+                        <tr>
+                            <th>Ostatnie zalogowano:</th>
+                            <td>
+                                {% if user.lastLoginDate is not null %}{{ user.lastLoginDate|date('d-m-Y H:i:s') }}
+                                {% else %}{{ 'now'|date('d-m-Y H:i:s') }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% if user.activated is not null %}
+                        <tr>
+                            <th>Konto aktywowano:</th>
+                            <td>{{ user.activated|date('d-m-Y H:i:s') }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>Utworzono:</th>
+                            <td>{{ user.created|date('d-m-Y H:i:s') }} z IP: {{ user.ip }}</td>
+                        </tr>
+                    </table>
+
+                    <a href="{{ path('resend_activation_link') }}">Wyślij jeszcze raz link aktywacyjny</a><br /><br />
+
+                    <a class="btn btn-info" href="{{ path('edit_account') }}" role="button">Edytuj</a>
+                    <a class="btn btn-warning" href="{{ path('change_password') }}" role="button">Zmień hasło</a>
+                    <a class="btn btn-danger" href="{{ path('logout') }}" role="button">Wyloguj</a>
+
+                </div>
+            </div>
+
+    </article>
+
+{% endblock %}

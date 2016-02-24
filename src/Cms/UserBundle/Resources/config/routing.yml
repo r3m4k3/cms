@@ -1,0 +1,35 @@
+login:
+    path:     /login
+    defaults: { _controller: CmsUserBundle:Login:index }
+
+register:
+    path:     /register
+    defaults: { _controller: CmsUserBundle:Register:index }
+
+my_account:
+    path:     /user/account
+    defaults: { _controller: CmsUserBundle:Account:index }
+
+edit_account:
+    path:     /user/account/edit
+    defaults: { _controller: CmsUserBundle:Account:edit }
+
+activate_account:
+    path:     /account/activate/{id}/{auth_key}
+    defaults: { _controller: CmsUserBundle:Account:activate }
+
+resend_activation_link:
+    path:     /account/resend/activation-link
+    defaults: { _controller: CmsUserBundle:Account:resendActivationLink }
+
+reset_password:
+    path:     /account/reset-password/{id}/{given_token}
+    defaults: { _controller: CmsUserBundle:Login:resetPassword }
+
+generate_reset_password_link:
+    path:     /account/generate/reset-password
+    defaults: { _controller: CmsUserBundle:Login:generateResetPasswordLink }
+
+change_password:
+    path:     /user/account/change-password
+    defaults: { _controller: CmsUserBundle:Account:changePassword }

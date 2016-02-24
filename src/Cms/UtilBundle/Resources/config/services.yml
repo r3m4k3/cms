@@ -1,0 +1,17 @@
+parameters:
+    cms.service.notification.class: Cms\UtilBundle\Service\NotificationService
+
+services:
+    alert:
+        class: %cms.service.notification.class%
+        arguments: [@session]
+
+    logger:
+         class: Symfony\Bridge\Monolog\Logger
+         arguments: [application]
+         calls:
+         - [pushHandler, [@handler]]
+
+    handler:
+         class: Monolog\Handler\StreamHandler
+         arguments: [%kernel.logs_dir%/%kernel.environment%.application.log]

@@ -1,0 +1,58 @@
+{% extends "CmsUtilBundle::base.html.twig" %}
+
+{% block pageTitle %}Logowanie{% endblock %}
+{% block pageContainer %}
+    {% form_theme form 'CmsUtilBundle:Form:form_theme.html.twig' %}
+
+    <article>
+
+        <div class="container alerts">
+            {% for type,messages in app.session.flashbag.all() %}
+                {% for msg in messages %}
+                    <div class="alert alert-{{ type }}">{{ msg|trans }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+        <div style="float: none; padding: 10px; margin-top: 25px;" class="panel panel-primary col-md-4 center-block">
+            <div class="panel-heading">
+                Logowanie
+            </div>
+            <div class="panel-body">
+                <br />
+
+                {% if form is not null %}
+                    {{ form(form, {'action': path('login_check')}) }}
+                {% endif %}
+
+                <a href="{{ path('generate_reset_password_link') }}">Przypomnij hasło</a><br />
+                <a href="{{ path('register') }}">Zarejestruj się</a>
+
+            </div>
+        </div>
+
+    </article>
+
+    <div id="testless">
+        <div>
+            <h1>
+                Less test - OK
+            </h1>
+        </div>
+    </div>
+
+    <div ng-app="app">
+        <p>Test angular: <input type="text" ng-model="name" placeholder="Enter name here"></p>
+        {#<h1>Hello {{ '{{name}}' }}</h1>#}
+        {#<h1>Hello#}
+        {#{%  verbatim %}#}
+            {#{{ name }}#}
+        {#{%  endverbatim %}#}
+        {#</h1>#}
+        {# after change #}
+        <h1>
+            Hello [{ name }]
+        </h1>
+    </div>
+
+{% endblock %}

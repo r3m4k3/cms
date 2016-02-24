@@ -1,0 +1,15 @@
+add_category:
+    path:     /category/add
+    defaults: { _controller: CmsContentBundle:Category:add }
+
+add_news:
+    path:     /news/add
+    defaults: { _controller: CmsContentBundle:News:add }
+
+list_news:
+    path:     /news/listing
+    defaults: { _controller: CmsContentBundle:News:getList }
+
+get_cities_by_province_id:
+    path:     /get-cities/province-id
+    defaults: { _controller: CmsContentBundle:Category:getCitiesByProvinceId, _format: json }

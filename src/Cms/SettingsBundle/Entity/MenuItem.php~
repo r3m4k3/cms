@@ -1,0 +1,96 @@
+<?php
+
+namespace Cms\SettingsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="menu_items")
+ * @ORM\HasLifecycleCallbacks
+ */
+class MenuItem {
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank
+     *
+     */
+    private $user_id;
+
+    /**
+     * @ORM\Column(type="integer", name="menu_id")
+     *
+     * @Assert\NotBlank
+     *
+     */
+    private $menu;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\NotBlank
+     *
+     * @Assert\Length(
+     *      max = "255"
+     * )
+     *
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="integer", length=1)
+     *
+     * @Assert\NotBlank
+     *
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\NotBlank
+     *
+     * @Assert\Length(
+     *      max = "255"
+     * )
+     *
+     */
+    private $url;
+
+    /**
+     * @ORM\Column(type="integer", length=1)
+     *
+     * @Assert\NotBlank
+     *
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\NotBlank
+     *
+     */
+    private $lately_edited;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\NotBlank
+     *
+     */
+    private $created;
+
+
+}
